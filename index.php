@@ -1,6 +1,22 @@
 <?php
-require_once 'connect.php';
+    require_once 'connect.php';
 
+    $posts = mysqli_query($connect, "SELECT * FROM post ORDER BY id DESC LIMIT 15");
+    $posts = mysqli_fetch_all($posts);
+
+    $total = count($posts); // кол-во постов
+    $per_page = 5; // кол-во постов на одну страницу
+    $count_page = ceil( $total / $per_page ); // кол-во страниц
+    $page = $_GET['page']??1; // определение страницы по GET запросу
+    $page = (int)$page;
+
+    if(!$page || $page < 1){
+        $page = 1;
+    } else if ($page > $count_page) {
+        $page = $count_page;
+    }
+
+    $start = ($page - 1) * $per_page; // начало распечатки элементов постранично
  ?>
 
 <!doctype html>
@@ -28,10 +44,9 @@ require_once 'connect.php';
                 </form>
             </div>
             <h2>News Feed</h2>
-            <div >
+            <div>
                 <?php
-                    $posts = mysqli_query($connect, "SELECT * FROM post ORDER BY id DESC LIMIT 15");
-                    $posts = mysqli_fetch_all($posts);
+                    $posts = array_slice($posts, $start, $per_page);
                     foreach ($posts as $post) {
                         ?>
                         <div class="post">
@@ -42,7 +57,17 @@ require_once 'connect.php';
                         <?php
                     }
                     ?>
-                </div>
+            </div>
+            <CENTER>
+            <?php
+                for ($i = 1; $i <= $count_page; $i++){
+                    ?>
+                    <a style="font-weight: bold"
+                    href='?page=<?=$i?>'><?=$i?></a>
+                    <?php
+                }
+                ?>
+            </CENTER>
         </div>
     </body>
 </html>

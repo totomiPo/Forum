@@ -9,5 +9,5 @@
 
     mysqli_query($connect, "INSERT INTO `post`(`id`, `login`, `text`, `time`)
                 VALUES(NULL, '$login', '".addslashes($post)."', '$date')");
-    header('Location:../newpost.php');
+    header('Location:../index.php');
  ?>
