@@ -3,32 +3,32 @@
 
     // Реакция на пост
 	if (isset($_POST['liked'])) {
-		$postid = $_POST['postid'];
-		$result = mysqli_query($connect, "SELECT * FROM post WHERE id = $postid");
+		$post_id = $_POST['postid'];
+		$result = mysqli_query($connect, "SELECT * FROM post WHERE id = $post_id");
 		$row = mysqli_fetch_array($result);
 		$like = $row['likes'];
         if ($like < 0){
             $like = 0;
         }
 
-		mysqli_query($connect, "INSERT INTO likes (postid) VALUES ($postid)");
-		mysqli_query($connect, "UPDATE post SET likes = $like + 1 WHERE id = $postid");
+		mysqli_query($connect, "INSERT INTO likes (postid) VALUES ($post_id)");
+		mysqli_query($connect, "UPDATE post SET likes = $like + 1 WHERE id = $post_id");
 
 		echo $like + 1;
 		exit();
 	}
 
     if (isset($_POST['unliked'])) {
-		$postid = $_POST['postid'];
-		$result = mysqli_query($connect, "SELECT * FROM post WHERE id = $postid");
+		$post_id = $_POST['postid'];
+		$result = mysqli_query($connect, "SELECT * FROM post WHERE id = $post_id");
 		$row = mysqli_fetch_array($result);
 		$like = $row['likes'];
         if ($like < 0){
             $like = 0;
         }
 
-		mysqli_query($connect, "DELETE FROM likes WHERE postid = $postid");
-		mysqli_query($connect, "UPDATE post SET likes = $like - 1 WHERE id = $postid");
+		mysqli_query($connect, "DELETE FROM likes WHERE postid = $post_id");
+		mysqli_query($connect, "UPDATE post SET likes = $like - 1 WHERE id = $post_id");
 
 		echo $like - 1;
 		exit();
@@ -92,6 +92,10 @@
             	</div>
             	<div class="text">
                 	<?php echo $post[2]; ?>
+					<div class="update"
+					style="font-weight: bold; margin-top: 15px;">
+						<a href="update.php?id=<?=$post[0]?>" style="text-decoration: none;">Изменить</a>
+					</div>
             	</div>
             	<div style="margin-left: 45px; font-weight: bold;">
                 	<?php echo $post[3]; ?>
@@ -100,11 +104,11 @@
 					<?php
 					$results = mysqli_query($connect, "SELECT * FROM likes WHERE postid=".$post[0]."");
 					if (mysqli_num_rows($results) == 1 ): ?>
-						<span class="unlike fa fa-thumbs-down" data-id="<?php echo $post[0]; ?>"></span>
-						<span class="like hide fa fa-thumbs-o-up" data-id="<?php echo $post[0]; ?>"></span>
+						<span style="color: #092A5B;" class="unlike fa fa-thumbs-down" data-id="<?php echo $post[0]; ?>"></span>
+						<span style="color: rgba(194, 0, 0, 0.74);;" class="like hide fa fa-thumbs-o-up" data-id="<?php echo $post[0]; ?>"></span>
 					<?php else: ?>
-                    	<span class="unlike hide fa fa-thumbs-down" data-id="<?php echo $post[0]; ?>"></span>
-						<span class="like fa fa-thumbs-o-up" data-id="<?php echo $post[0]; ?>"></span>
+                    	<span style="color: #092A5B;;" class="unlike hide fa fa-thumbs-down" data-id="<?php echo $post[0]; ?>"></span>
+						<span style="color: rgba(194, 0, 0, 0.74);;"  class="like fa fa-thumbs-o-up" data-id="<?php echo $post[0]; ?>"></span>
 					<?php endif ?>
 					<span class="likes_count"><?php echo $post[4]; ?> likes</span>
             	</div>
@@ -128,7 +132,7 @@
        $(document).ready(function(){
 
        	$('.like').on('click', function(){
-       		var postid = $(this).data('id');
+       		var post_id = $(this).data('id');
        		    $post = $(this);
 
        		$.ajax({
@@ -136,7 +140,7 @@
        			type: 'post',
        			data: {
        				'liked': 1,
-       				'postid': postid
+       				'postid': post_id
        			},
        			success: function(response){
        				$post.parent().find('span.likes_count').text(response + " likes");
@@ -147,7 +151,7 @@
        	});
 
        	$('.unlike').on('click', function(){
-       		var postid = $(this).data('id');
+       		var post_id = $(this).data('id');
        	    $post = $(this);
 
        		$.ajax({
@@ -155,7 +159,7 @@
        			type: 'post',
        			data: {
        				'unliked': 1,
-       				'postid': postid
+       				'postid': post_id
        			},
        			success: function(response){
        				$post.parent().find('span.likes_count').text(response + " likes");

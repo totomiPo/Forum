@@ -124,9 +124,10 @@ h2 {
     width: 1100px;
 }
 
-.like, .unlike, .likes_count {
-	color: blue;
+.update .text {
+    font-weight: bold;
 }
+
 .hide {
 	display: none;
 }
