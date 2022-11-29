@@ -96,6 +96,10 @@
 					style="font-weight: bold; margin-top: 15px;">
 						<a href="update.php?id=<?=$post[0]?>" style="text-decoration: none;">Изменить</a>
 					</div>
+					<div class="delete"
+					style="font-weight: bold; margin-top: 5px;">
+						<a href="delete.php?id=<?=$post[0]?>" style="text-decoration: none;  color:rgba(194, 0, 0, 0.74);">Удалить</a>
+					</div>
             	</div>
             	<div style="margin-left: 45px; font-weight: bold;">
                 	<?php echo $post[3]; ?>
