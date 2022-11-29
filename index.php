@@ -6,31 +6,31 @@
 		$postid = $_POST['postid'];
 		$result = mysqli_query($connect, "SELECT * FROM post WHERE id = $postid");
 		$row = mysqli_fetch_array($result);
-		$n = $row['likes'];
-        if ($n < 0){
-            $n = 0;
+		$like = $row['likes'];
+        if ($like < 0){
+            $like = 0;
         }
 
 		mysqli_query($connect, "INSERT INTO likes (postid) VALUES ($postid)");
-		mysqli_query($connect, "UPDATE post SET likes = $n + 1 WHERE id = $postid");
+		mysqli_query($connect, "UPDATE post SET likes = $like + 1 WHERE id = $postid");
 
-		echo $n + 1;
+		echo $like + 1;
 		exit();
 	}
 
     if (isset($_POST['unliked'])) {
 		$postid = $_POST['postid'];
-		$result = mysqli_query($connect, "SELECT * FROM post WHERE id=$postid");
+		$result = mysqli_query($connect, "SELECT * FROM post WHERE id = $postid");
 		$row = mysqli_fetch_array($result);
-		$n = $row['likes'];
-        if ($n < 0){
-            $n = 0;
+		$like = $row['likes'];
+        if ($like < 0){
+            $like = 0;
         }
 
 		mysqli_query($connect, "DELETE FROM likes WHERE postid = $postid");
-		mysqli_query($connect, "UPDATE post SET likes = $n-1 WHERE id = $postid");
+		mysqli_query($connect, "UPDATE post SET likes = $like - 1 WHERE id = $postid");
 
-		echo $n-1;
+		echo $like - 1;
 		exit();
 	}
 
@@ -62,11 +62,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.google.com/specimen/Sarabun?selection.family=Rye&sidebar.open=&subset=latin&category=Serif,Sans+Serif&preview.size=32" rel="stylesheet">
-    <link rel = "stylesheet" href="css/main.css">
+    <link rel = "stylesheet" href="app/css/main.css">
 </head>
 <body>
     <h1>Tell me something</h1>
+
     <div class ="gl">
+
         <div class="form">
             <form action="post.php" method="POST" enctype="multipart/form-data">
                 <label>Login:</label><br>
@@ -77,34 +79,38 @@
                 <input type="reset" Value="Очистить" class="button">
             </form>
         </div>
+
         <h2>News Feed</h2>
+
 		<?php
-        $post = mysqli_query($connect, "SELECT * FROM post ORDER BY id DESC");
-        while ($row = mysqli_fetch_array($post)) { ?>
+		$posts = array_slice($posts, $start, $per_page); // выборка по n строк из бд
+		foreach ($posts as $post) {
+			?>
 			<div class="post">
-                <div class="user">
-                    <?php echo $row['login']; ?>
-                </div>
-                <div class="text">
-                    <?php echo $row['text']; ?>
-                </div>
-                <div style="margin-left: 45px; font-weight: bold;">
-                    <?php echo $row['time']; ?>
-                </div>
-                <div style="font-size: 20px; margin: 10px 15px;">
-				<?php
-					$results = mysqli_query($connect, "SELECT * FROM likes WHERE postid=".$row['id']."");
+            	<div class="user">
+                	<?php echo $post[1]; ?>
+            	</div>
+            	<div class="text">
+                	<?php echo $post[2]; ?>
+            	</div>
+            	<div style="margin-left: 45px; font-weight: bold;">
+                	<?php echo $post[3]; ?>
+            	</div>
+            	<div style="font-size: 20px; margin: 10px 15px;">
+					<?php
+					$results = mysqli_query($connect, "SELECT * FROM likes WHERE postid=".$post[0]."");
 					if (mysqli_num_rows($results) == 1 ): ?>
-						<span class="unlike fa fa-thumbs-down" data-id="<?php echo $row['id']; ?>"></span>
-						<span class="like hide fa fa-thumbs-o-up" data-id="<?php echo $row['id']; ?>"></span>
+						<span class="unlike fa fa-thumbs-down" data-id="<?php echo $post[0]; ?>"></span>
+						<span class="like hide fa fa-thumbs-o-up" data-id="<?php echo $post[0]; ?>"></span>
 					<?php else: ?>
-                        <span class="unlike hide fa fa-thumbs-down" data-id="<?php echo $row['id']; ?>"></span>
-						<span class="like fa fa-thumbs-o-up" data-id="<?php echo $row['id']; ?>"></span>
+                    	<span class="unlike hide fa fa-thumbs-down" data-id="<?php echo $post[0]; ?>"></span>
+						<span class="like fa fa-thumbs-o-up" data-id="<?php echo $post[0]; ?>"></span>
 					<?php endif ?>
-					<span class="likes_count"><?php echo $row['likes']; ?> likes</span>
-                </div>
+					<span class="likes_count"><?php echo $post[4]; ?> likes</span>
+            	</div>
 			</div>
-		<?php }
+		<?php
+		}
         ?>
         <CENTER>
             <?php
@@ -116,49 +122,49 @@
             }
             ?>
         </CENTER>
-        </div>
-        <script src="/js/jquery.min.js"></script>
-        <script>
-           $(document).ready(function(){
+    </div>
+    <script src="/app/js/jquery.min.js"></script>
+    <script>
+       $(document).ready(function(){
 
-           	$('.like').on('click', function(){
-           		var postid = $(this).data('id');
-           		    $post = $(this);
+       	$('.like').on('click', function(){
+       		var postid = $(this).data('id');
+       		    $post = $(this);
 
-           		$.ajax({
-           			url: 'index.php',
-           			type: 'post',
-           			data: {
-           				'liked': 1,
-           				'postid': postid
-           			},
-           			success: function(response){
-           				$post.parent().find('span.likes_count').text(response + " likes");
-           				$post.addClass('hide');
-           				$post.siblings().removeClass('hide');
-           			}
-           		});
-           	});
+       		$.ajax({
+       			url: 'index.php',
+       			type: 'post',
+       			data: {
+       				'liked': 1,
+       				'postid': postid
+       			},
+       			success: function(response){
+       				$post.parent().find('span.likes_count').text(response + " likes");
+       				$post.addClass('hide');
+       				$post.siblings().removeClass('hide');
+       			}
+       		});
+       	});
 
-           	$('.unlike').on('click', function(){
-           		var postid = $(this).data('id');
-           	    $post = $(this);
+       	$('.unlike').on('click', function(){
+       		var postid = $(this).data('id');
+       	    $post = $(this);
 
-           		$.ajax({
-           			url: 'index.php',
-           			type: 'post',
-           			data: {
-           				'unliked': 1,
-           				'postid': postid
-           			},
-           			success: function(response){
-           				$post.parent().find('span.likes_count').text(response + " likes");
-           				$post.addClass('hide');
-           				$post.siblings().removeClass('hide');
-           			}
-           		});
-           	});
-           });
-        </script>
-    </body>
+       		$.ajax({
+       			url: 'index.php',
+       			type: 'post',
+       			data: {
+       				'unliked': 1,
+       				'postid': postid
+       			},
+       			success: function(response){
+       				$post.parent().find('span.likes_count').text(response + " likes");
+       				$post.addClass('hide');
+       				$post.siblings().removeClass('hide');
+       			}
+       		});
+       	});
+       });
+    </script>
+</body>
 </html>
