@@ -74,6 +74,7 @@
                 <label>Login:</label><br>
                 <input type="text" class="login" name ="login"><br>
                 <textarea name="post"></textarea>
+				<input type="file" Value="Изображение" class="button" name="img">
                 <br>
                 <input type="Submit" Value="Опубликовать" class="button">
                 <input type="reset" Value="Очистить" class="button">
@@ -90,8 +91,11 @@
             	<div class="user">
                 	<?php echo $post[1]; ?>
             	</div>
+
             	<div class="text">
-                	<?php echo $post[2]; ?>
+                	<?php echo $post[2]; ?><br>
+					<img src="<?php echo $post[5] ?>" width="50%" alt=""
+					style="margin: 10px 0px; border-radius: 8px;"/>
 					<div class="update"
 					style="font-weight: bold; margin-top: 15px;">
 						<a href="update.php?id=<?=$post[0]?>" style="text-decoration: none;">Изменить</a>
@@ -137,7 +141,7 @@
 
        	$('.like').on('click', function(){
        		var post_id = $(this).data('id');
-       		    $post = $(this);
+       		$post = $(this);
 
        		$.ajax({
        			url: 'index.php',
@@ -173,6 +177,7 @@
        		});
        	});
        });
+
     </script>
 </body>
 </html>
