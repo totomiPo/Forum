@@ -32,6 +32,7 @@
                 <label>Login:</label><br>
                 <input type="text" class="login" name ="login" value="<?=$post['login']?>"><br>
                 <textarea name="post"><?=$post['text']?></textarea>
+                <input type="file" Value="Изображение" name="img" style="margin: 10px;">
                 <br>
                 <input type="Submit" Value="Изменить" class="button">
                 <input type="reset" Value="Очистить" class="button">
