@@ -94,8 +94,12 @@
 
             	<div class="text">
                 	<?php echo $post[2]; ?><br>
-					<img src="<?php echo $post[5] ?>" width="50%" alt=""
-					style="margin: 10px 0px; border-radius: 8px;"/>
+					<?php
+					if (!empty($post[5])){
+						?>
+						<img src="<?php echo $post[5] ?>" width="50%" alt=""
+						style="margin: 10px 0px; border-radius: 8px;"/>
+					<?php } ?>
 					<div class="update"
 					style="font-weight: bold; margin-top: 15px;">
 						<a href="update.php?id=<?=$post[0]?>" style="text-decoration: none;">Изменить</a>
