@@ -74,7 +74,7 @@
                 <label>Login:</label><br>
                 <input type="text" class="login" name ="login"><br>
                 <textarea name="post"></textarea>
-				<input type="file" Value="Изображение" class="button" name="img">
+				<input type="file" Value="Изображение" name="img" style="margin: 10px;">
                 <br>
                 <input type="Submit" Value="Опубликовать" class="button">
                 <input type="reset" Value="Очистить" class="button">
