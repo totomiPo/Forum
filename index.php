@@ -98,7 +98,7 @@
 					if (!empty($post[5])){
 						?>
 						<img src="<?php echo $post[5] ?>" width="50%" alt=""
-						style="margin: 10px 0px; border-radius: 8px;"/>
+						style="border-radius: 8px; margin-left: auto; margin-right: auto; display: block;"/>
 					<?php } ?>
 					<div class="update"
 					style="font-weight: bold; margin-top: 15px;">
