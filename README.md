@@ -14,6 +14,7 @@
 - Описать алгоритмы
 
 #### [1. Пользовательский интерфейс](https://www.figma.com/proto/nNBpKeNMK8FiCJELsD5Zp6/Forum?node-id=1%3A2&scaling=min-zoom&page-id=0%3A1)
+![Интерфейс](https://github.com/totomiPo/Forum/blob/main/img/Дизайн.png)
 
 #### 2. Пользовательский сценарий работы
 Пользователь попадает на главную страницу **index.php**. 
@@ -23,6 +24,12 @@
 Есть возможность удалять записи. Для этого пользователь нажимает на кнопку *УДАЛИТЬ*, и соответствующая запись удаляется.
 
 #### 3. API сервера и хореография
+![Добавление](https://github.com/totomiPo/Forum/blob/main/img/Добавление%20-%20хореография.png)  
+
+![Реакция](https://github.com/totomiPo/Forum/blob/main/img/Реакция%20-%20хореография.png)  
+
+![Удаление](https://github.com/totomiPo/Forum/blob/main/img/Удаление%20-%20хореография.png)  
+
 
 #### 4. Структура базы данных
 
@@ -43,10 +50,18 @@
 | **postid** | INT |  | NO | ID поста |
 
 #### 5. Алгоритм
-**Добавление записи**
-**Удаление записи**
-**Обновление записи**
-**Реакция на запись**
+**Добавление записи**  
+![Добавление](https://github.com/totomiPo/Forum/blob/main/img/Создание%20поста.png)  
+
+**Удаление записи**  
+![Удаление](https://github.com/totomiPo/Forum/blob/main/img/Удаление.png)  
+
+**Обновление записи**  
+![Обновление](https://github.com/totomiPo/Forum/blob/main/img/Изменение%20поста.png)  
+
+**Реакция на запись**  
+![Реакция](https://github.com/totomiPo/Forum/blob/main/img/Лайки.png)  
+
 
 #### 6. HTTP запрос/ответ
 **Запрос**  
